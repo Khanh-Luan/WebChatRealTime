@@ -51,6 +51,10 @@
   padding: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-dark);
@@ -479,13 +483,19 @@ body {
 }
 
 .msg-reply-quote {
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.22);
   border-left: 3px solid var(--accent);
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 11.5px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 12px;
   margin-bottom: 6px;
-  opacity: 0.9;
+  opacity: 0.95;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.msg-reply-quote:hover {
+  background: rgba(0, 0, 0, 0.32);
 }
 
 .msg-row.mine .msg-reply-quote {
@@ -549,25 +559,39 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
-  margin-top: 7px;
+  gap: 5px;
+  margin-top: 8px;
 }
 
 .react-chip,
 .react-trigger,
 .msg-action-btn {
-  background: rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: inherit;
   border-radius: 999px;
-  padding: 2px 7px;
+  padding: 3px 8px;
   font-size: 11px;
   cursor: pointer;
+  transition: all 0.15s;
+}
+
+.react-chip:hover,
+.react-trigger:hover,
+.msg-action-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.msg-action-btn.pinned-active {
+  background: rgba(245, 158, 11, 0.28);
+  border-color: #f59e0b;
+  color: #fde68a;
+  opacity: 1;
 }
 
 .react-trigger,
 .msg-action-btn {
-  opacity: 0.65;
+  opacity: 0.78;
 }
 
 .msg-bubble:hover .react-trigger,
@@ -580,18 +604,37 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 20px;
+  gap: 12px;
+  padding: 9px 20px;
   background: var(--bg-card);
-  border-top: 1px solid var(--border);
-  font-size: 12.5px;
+  border-top: 2px solid var(--accent);
+  font-size: 13px;
+}
+
+.reply-info {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mini-close-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  border-radius: 7px;
+  padding: 4px 10px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.mini-close-btn:hover {
+  background: var(--danger);
+  color: #fff;
 }
 
 .typing-indicator {
@@ -715,73 +758,61 @@ body {
   gap: 6px;
 }
 
-.user-row {
+.user-row,
+.user-dir-item {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 8px;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 9px;
   border-radius: 10px;
   cursor: pointer;
   transition: background 0.15s;
 }
 
-.user-row:hover {
+.user-row:hover,
+.user-dir-item:hover {
   background: var(--bg-hover);
 }
 
-.user-row-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: var(--bg-panel);
+.user-dir-left {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  position: relative;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
 }
 
 .status-dot {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #64748b;
-  border: 2px solid var(--bg-card);
+  flex-shrink: 0;
 }
 
 .status-dot.online {
   background: var(--green);
+  box-shadow: 0 0 6px var(--green);
 }
 
-.user-row-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.user-row-name {
-  font-size: 13px;
+.dm-quick-btn,
+.dm-badge-btn {
+  font-size: 11px;
   font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.user-row-sub {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.dm-quick-btn {
-  font-size: 11px;
   color: var(--accent);
   background: var(--accent-soft);
-  border: none;
-  padding: 3px 7px;
-  border-radius: 6px;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  padding: 4px 8px;
+  border-radius: 7px;
   cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.dm-badge-btn:hover {
+  background: var(--accent);
+  color: #fff;
 }
 
 /* Modals */

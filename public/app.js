@@ -316,8 +316,7 @@ function renderPinnedBanner() {
   const banner = $('pinned-banner');
   const list = messagesByRoom.get(currentRoomId) || [];
   const pinnedId = pinnedByRoom.get(currentRoomId);
-  const pinnedMsg =
-    list.find((m) => m.id === pinnedId || m.pinned) || null;
+  const pinnedMsg = pinnedId ? list.find((m) => m.id === pinnedId) || null : null;
 
   if (!pinnedMsg || pinnedMsg.recalled) {
     banner.hidden = true;
@@ -329,7 +328,11 @@ function renderPinnedBanner() {
   $('pinned-text').textContent = pinnedMsg.text.slice(0, 90);
   $('pinned-jump-btn').onclick = () => {
     const el = document.getElementById(`msg-dom-${pinnedMsg.id}`);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('search-match');
+      setTimeout(() => el.classList.remove('search-match'), 1800);
+    }
   };
 }
 
@@ -338,12 +341,14 @@ function renderMessages() {
   feed.textContent = '';
   const list = messagesByRoom.get(currentRoomId) || [];
   const q = messageSearchQuery.trim().toLowerCase();
+  const currentPinnedId = pinnedByRoom.get(currentRoomId) || null;
   let firstMatchEl = null;
 
   for (const raw of list) {
     const m = normalizeMessage(raw);
     const isMine = currentUser && m.username === currentUser.username;
     const isMatch = Boolean(q && !m.recalled && m.text.toLowerCase().includes(q));
+    const isPinned = Boolean(currentPinnedId && m.id === currentPinnedId);
 
     const row = document.createElement('article');
     row.id = `msg-dom-${m.id}`;
@@ -386,7 +391,18 @@ function renderMessages() {
     if (m.replyTo && m.replyTo.text) {
       const quote = document.createElement('div');
       quote.className = 'msg-reply-quote';
+      quote.title = 'Bấm để cuộn tới tin nhắn gốc';
       quote.textContent = `↩ ${m.replyTo.displayName || m.replyTo.username || 'Tin nhắn'}: ${m.replyTo.text}`;
+      if (m.replyTo.id) {
+        quote.addEventListener('click', () => {
+          const targetEl = document.getElementById(`msg-dom-${m.replyTo.id}`);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetEl.classList.add('search-match');
+            setTimeout(() => targetEl.classList.remove('search-match'), 1800);
+          }
+        });
+      }
       bubble.appendChild(quote);
     }
 
@@ -457,9 +473,9 @@ function renderMessages() {
 
       const pinBtn = document.createElement('button');
       pinBtn.type = 'button';
-      pinBtn.className = 'msg-action-btn';
-      pinBtn.textContent = '📌 Ghim';
-      pinBtn.addEventListener('click', () => pinMessage(m.id, true));
+      pinBtn.className = `msg-action-btn ${isPinned ? 'pinned-active' : ''}`;
+      pinBtn.textContent = isPinned ? '📌 Bỏ ghim' : '📌 Ghim';
+      pinBtn.addEventListener('click', () => pinMessage(m.id, !isPinned));
       reactBar.appendChild(pinBtn);
 
       if (isMine) {
@@ -527,6 +543,8 @@ function clearReplyOrEditTarget() {
     editingMessage = null;
     $('message-input').value = '';
   }
+  $('reply-mode-label').textContent = '↩ Đang trả lời:';
+  $('reply-target-text').textContent = '';
   $('btn-submit-msg').textContent = 'Gửi ➤';
   $('reply-bar').hidden = true;
 }
@@ -784,8 +802,13 @@ function createStaticSocket() {
         const room = store.rooms.find((r) => r.id === rId);
         if (room) {
           room.pinnedMessageId = data.pinned ? data.messageId : null;
+          const list = store.messages[rId] || [];
+          for (const item of list) {
+            item.pinned = Boolean(room.pinnedMessageId && item.id === room.pinnedMessageId);
+          }
           saveStaticStore(store);
           broadcast('room:pinned', { roomId: rId, messageId: room.pinnedMessageId });
+          broadcast('rooms', store.rooms);
         }
       } else if (event === 'poll:create') {
         const rId = data.roomId || currentRoomId;
@@ -826,8 +849,14 @@ function createStaticSocket() {
         if (msg && msg.username === me?.username) {
           msg.recalled = true;
           msg.text = '';
+          msg.pinned = false;
+          const room = store.rooms.find((r) => r.id === rId);
+          if (room && room.pinnedMessageId === msg.id) {
+            room.pinnedMessageId = null;
+            broadcast('room:pinned', { roomId: rId, messageId: null });
+          }
           saveStaticStore(store);
-          broadcast('message:updated', { roomId: rId, id: msg.id, recalled: true });
+          broadcast('message:updated', { roomId: rId, id: msg.id, recalled: true, pinned: false });
         }
       } else if (event === 'reaction:add') {
         const rId = data.roomId || currentRoomId;
@@ -965,6 +994,13 @@ function sendReaction(messageId, emoji) {
 
 function recallMessage(messageId) {
   if (!socket || !currentUser) return;
+  if (replyingToMessage?.id === messageId || editingMessage?.id === messageId) {
+    clearReplyOrEditTarget();
+  }
+  if (pinnedByRoom.get(currentRoomId) === messageId) {
+    pinnedByRoom.set(currentRoomId, null);
+    renderPinnedBanner();
+  }
   socket.emit('message:delete', {
     roomId: currentRoomId,
     messageId,
@@ -973,12 +1009,22 @@ function recallMessage(messageId) {
 
 function pinMessage(messageId, pinned) {
   if (!socket || !currentUser) return;
-  pinnedByRoom.set(currentRoomId, pinned ? messageId : null);
+  const nextPinnedId = pinned && messageId ? messageId : null;
+  pinnedByRoom.set(currentRoomId, nextPinnedId);
+  const roomObj = roomsList.find((r) => (r.id || r.roomId) === currentRoomId);
+  if (roomObj && typeof roomObj === 'object') {
+    roomObj.pinnedMessageId = nextPinnedId;
+  }
+  const list = messagesByRoom.get(currentRoomId) || [];
+  for (const m of list) {
+    m.pinned = Boolean(nextPinnedId && m.id === nextPinnedId);
+  }
   renderPinnedBanner();
+  renderMessages();
   socket.emit('message:pin', {
     roomId: currentRoomId,
-    messageId: pinned ? messageId : null,
-    pinned,
+    messageId: nextPinnedId,
+    pinned: Boolean(nextPinnedId),
   });
 }
 
@@ -1127,8 +1173,19 @@ function connectSocket() {
   socket.on('room:pinned', (payload) => {
     if (!payload) return;
     const rId = payload.roomId || currentRoomId;
-    pinnedByRoom.set(rId, payload.messageId || null);
-    if (rId === currentRoomId) renderPinnedBanner();
+    const nextPinnedId = payload.messageId || null;
+    pinnedByRoom.set(rId, nextPinnedId);
+    const roomObj = roomsList.find((r) => (r.id || r.roomId) === rId);
+    if (roomObj && typeof roomObj === 'object') {
+      roomObj.pinnedMessageId = nextPinnedId;
+    }
+    const list = messagesByRoom.get(rId) || [];
+    for (const m of list) {
+      m.pinned = Boolean(nextPinnedId && m.id === nextPinnedId);
+    }
+    if (rId === currentRoomId) {
+      renderMessages();
+    }
   });
 
   socket.on('typing:start', (data) => {
@@ -1415,8 +1472,22 @@ function init() {
     $('create-poll-dialog').close();
   });
 
-  $('btn-unpin').addEventListener('click', () => pinMessage(null, false));
-  $('btn-cancel-reply').addEventListener('click', clearReplyOrEditTarget);
+  $('btn-unpin').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    pinMessage(null, false);
+  });
+  $('btn-cancel-reply').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    clearReplyOrEditTarget();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && (replyingToMessage || editingMessage)) {
+      clearReplyOrEditTarget();
+    }
+  });
 
   $('sidebar-search').addEventListener('input', (e) => {
     renderSidebarLists(e.target.value);

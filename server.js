@@ -523,8 +523,15 @@ io.on('connection', (socket) => {
     if (!message || message.username !== member.user.username) return;
     message.recalled = true;
     message.text = '';
+    message.pinned = false;
+    const room = roomById(member.roomId);
+    if (room && room.pinnedMessageId === message.id) {
+      room.pinnedMessageId = null;
+      io.to(member.roomId).emit('room:pinned', { roomId: member.roomId, messageId: null });
+      emitRoomLists();
+    }
     saveStore();
-    io.to(member.roomId).emit('message:updated', { roomId: member.roomId, id: message.id, recalled: true });
+    io.to(member.roomId).emit('message:updated', { roomId: member.roomId, id: message.id, recalled: true, pinned: false });
   });
 
   socket.on('reaction:add', (data = {}) => {

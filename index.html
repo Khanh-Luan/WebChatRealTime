@@ -266,14 +266,14 @@
 
       <!-- Pinned Message Banner -->
       <div id="pinned-banner" class="pinned-banner" hidden>
-        <div class="pinned-content" id="pinned-jump-btn">
+        <div class="pinned-content" id="pinned-jump-btn" title="Bấm để cuộn tới tin nhắn được ghim">
           <span class="pin-icon">📌</span>
           <div>
             <strong id="pinned-author">Tin nhắn ghim</strong>:
             <span id="pinned-text"></span>
           </div>
         </div>
-        <button id="btn-unpin" type="button" class="mini-close-btn" title="Bỏ ghim">✕</button>
+        <button id="btn-unpin" type="button" class="mini-close-btn" title="Bỏ ghim tin nhắn này">✕ Bỏ ghim</button>
       </div>
 
       <section id="message-feed" class="message-feed" aria-live="polite"></section>
@@ -281,10 +281,10 @@
       <!-- Reply or Edit Preview Bar -->
       <div id="reply-bar" class="reply-bar" hidden>
         <div class="reply-info">
-          <strong id="reply-mode-label">↩ Đang trả lời <span id="reply-target-user"></span>:</strong>
+          <strong id="reply-mode-label">↩ Đang trả lời:</strong>
           <span id="reply-target-text" class="muted"></span>
         </div>
-        <button id="btn-cancel-reply" type="button" class="mini-close-btn">✕</button>
+        <button id="btn-cancel-reply" type="button" class="mini-close-btn" title="Hủy trả lời / chỉnh sửa (Esc)">✕ Hủy</button>
       </div>
 
       <div id="typing-indicator" class="typing-indicator" hidden>

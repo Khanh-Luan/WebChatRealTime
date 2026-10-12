@@ -115,7 +115,24 @@ async function runCustomerFlowTest() {
   const pinPromiseB = waitForEvent(clientB, 'room:pinned', (p) => p.roomId === 'general' && p.messageId === sentMsg.id);
   clientA.emit('message:pin', { roomId: 'general', messageId: sentMsg.id, pinned: true });
   await pinPromiseB;
-  console.log('✅ 5. Gửi tin nhắn, Sửa tin nhắn & Ghim thông báo: PASS');
+
+  // Kiểm tra Bỏ ghim (Unpin) hoạt động chính xác
+  const unpinPromiseB = waitForEvent(clientB, 'room:pinned', (p) => p.roomId === 'general' && p.messageId === null);
+  clientA.emit('message:pin', { roomId: 'general', messageId: null, pinned: false });
+  await unpinPromiseB;
+
+  // Kiểm tra Trả lời tin nhắn (Reply) lưu đúng trích dẫn
+  const replyText = 'Mình đồng ý nhé Tuấn!';
+  const replyPromiseA = waitForEvent(clientA, 'message:new', (m) => m.roomId === 'general' && m.text === replyText);
+  clientB.emit('message:send', {
+    roomId: 'general',
+    text: replyText,
+    replyTo: { id: sentMsg.id, displayName: 'Minh Tuấn', text: editedText },
+  });
+  const repliedMsg = await replyPromiseA;
+  assert.equal(repliedMsg.replyTo.id, sentMsg.id);
+  assert.equal(repliedMsg.replyTo.displayName, 'Minh Tuấn');
+  console.log('✅ 5. Gửi tin nhắn, Sửa, Ghim / Bỏ ghim & Trả lời tin nhắn: PASS');
 
   // 6. Nhắn tin riêng 1-1 & kiểm tra Badge chưa đọc
   const dmJoinedPromiseA = waitForEvent(clientA, 'room:joined', (r) => r.room?.type === 'dm');
