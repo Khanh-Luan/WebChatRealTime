@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mây Chat — Nhắn tin & Trò chuyện Nhóm Trực tuyến</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./socket.io/socket.io.js"></script>
+</head>
+<body>
+  <!-- Auth Modal: Đăng nhập / Đăng ký Tài khoản -->
+  <dialog id="auth-dialog" class="modal-dialog">
+    <div class="auth-card">
+      <div class="brand-badge">☁️ Mây Chat</div>
+      <h1 id="auth-title">Chào mừng trở lại</h1>
+      <p class="subtitle">Kết nối bạn bè, trò chuyện nhóm và làm việc trực tuyến mượt mà</p>
+
+      <div class="auth-tabs" role="tablist">
+        <button type="button" id="tab-login" class="auth-tab active">Đăng nhập</button>
+        <button type="button" id="tab-register" class="auth-tab">Đăng ký mới</button>
+      </div>
+
+      <p id="auth-error" class="auth-error" hidden></p>
+
+      <form id="auth-form" class="auth-form">
+        <label class="field">
+          <span>Tên đăng nhập</span>
+          <input id="auth-username" type="text" required minlength="2" maxlength="24" placeholder="VD: minhtuan" autocomplete="username">
+        </label>
+
+        <label class="field">
+          <span>Mật khẩu</span>
+          <input id="auth-password" type="password" required minlength="1" maxlength="64" placeholder="Nhập mật khẩu" autocomplete="current-password">
+        </label>
+
+        <div id="register-extra-fields" class="register-extra" hidden>
+          <label class="field">
+            <span>Tên hiển thị (Họ tên / Biệt danh)</span>
+            <input id="auth-displayname" type="text" maxlength="32" placeholder="VD: Minh Tuấn">
+          </label>
+
+          <label class="field">
+            <span>Giới thiệu ngắn (Bio)</span>
+            <input id="auth-bio" type="text" maxlength="80" placeholder="VD: Thiết kế sản phẩm · TP.HCM">
+          </label>
+
+          <div class="field">
+            <span>Chọn biểu tượng đại diện</span>
+            <div id="avatar-picker" class="avatar-picker">
+              <button type="button" class="avatar-option selected" data-avatar="😎">😎</button>
+              <button type="button" class="avatar-option" data-avatar="🚀">🚀</button>
+              <button type="button" class="avatar-option" data-avatar="🦊">🦊</button>
+              <button type="button" class="avatar-option" data-avatar="🐱">🐱</button>
+              <button type="button" class="avatar-option" data-avatar="⚡">⚡</button>
+              <button type="button" class="avatar-option" data-avatar="🌸">🌸</button>
+              <button type="button" class="avatar-option" data-avatar="🧑‍💻">🧑‍💻</button>
+              <button type="button" class="avatar-option" data-avatar="🎧">🎧</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="primary-btn full-width">Đăng nhập ngay ➤</button>
+      </form>
+
+      <div class="demo-accounts-box">
+        <div class="demo-label">⚡ Chuyển nhanh tài khoản trải nghiệm:</div>
+        <div class="demo-buttons">
+          <button type="button" class="demo-acc-btn" data-user="minhtuan" data-pass="123456" data-name="Minh Tuấn" data-avatar="😎">😎 Minh Tuấn</button>
+          <button type="button" class="demo-acc-btn" data-user="lananh" data-pass="123456" data-name="Lan Anh" data-avatar="🌷">🌷 Lan Anh</button>
+          <button type="button" class="demo-acc-btn" data-user="hoangnam" data-pass="123456" data-name="Hoàng Nam" data-avatar="🚀">🚀 Hoàng Nam</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Edit Profile Modal (Chỉnh sửa Hồ sơ Cá nhân) -->
+  <dialog id="profile-dialog" class="modal-dialog small-dialog">
+    <form id="profile-form" method="dialog" class="auth-card">
+      <h2>👤 Hồ sơ Cá nhân</h2>
+      <label class="field">
+        <span>Tên hiển thị</span>
+        <input id="prof-displayname" type="text" required maxlength="36" placeholder="Tên hiển thị của bạn">
+      </label>
+      <label class="field">
+        <span>Giới thiệu / Trạng thái</span>
+        <input id="prof-bio" type="text" maxlength="100" placeholder="Chia sẻ trạng thái hôm nay...">
+      </label>
+      <div class="field">
+        <span>Ảnh đại diện</span>
+        <div id="prof-avatar-picker" class="avatar-picker">
+          <button type="button" class="prof-avatar-opt" data-avatar="😎">😎</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="🚀">🚀</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="🦊">🦊</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="🐱">🐱</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="⚡">⚡</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="🌷">🌷</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="🧑‍💻">🧑‍💻</button>
+          <button type="button" class="prof-avatar-opt" data-avatar="🎧">🎧</button>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" id="btn-cancel-profile" class="secondary-btn">Đóng</button>
+        <button type="submit" class="primary-btn">💾 Lưu thay đổi</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Settings Modal (Cài đặt Giao diện, Âm thanh & Trải nghiệm) -->
+  <dialog id="settings-dialog" class="modal-dialog small-dialog">
+    <form id="settings-form" method="dialog" class="auth-card">
+      <h2>⚙️ Cài đặt Ứng dụng</h2>
+
+      <div class="field">
+        <span>Chế độ giao diện</span>
+        <div class="theme-selector" id="theme-selector">
+          <button type="button" class="theme-chip active" data-theme-val="dark">🌙 Tối hiện đại</button>
+          <button type="button" class="theme-chip" data-theme-val="light">☀️ Sáng tinh khôi</button>
+          <button type="button" class="theme-chip" data-theme-val="ocean">🌊 Xanh đại dương</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span>Màu chủ đạo</span>
+        <div class="accent-selector" id="accent-selector">
+          <button type="button" class="accent-dot active" data-accent="#0ea5e9" style="--dot-color:#0ea5e9" title="Xanh Mây"></button>
+          <button type="button" class="accent-dot" data-accent="#6366f1" style="--dot-color:#6366f1" title="Tím Indigo"></button>
+          <button type="button" class="accent-dot" data-accent="#10b981" style="--dot-color:#10b981" title="Xanh Ngọc"></button>
+          <button type="button" class="accent-dot" data-accent="#f43f5e" style="--dot-color:#f43f5e" title="Hồng San Hô"></button>
+        </div>
+      </div>
+
+      <label class="field">
+        <span>Cỡ chữ tin nhắn</span>
+        <select id="setting-fontsize" class="settings-select">
+          <option value="small">Nhỏ gọn (13px)</option>
+          <option value="normal" selected>Tiêu chuẩn (14.5px)</option>
+          <option value="large">Lớn dễ đọc (16px)</option>
+        </select>
+      </label>
+
+      <div class="settings-toggles">
+        <label class="toggle-row">
+          <div>
+            <strong>🔔 Âm thanh thông báo</strong>
+            <p class="small muted">Phát chuông nhẹ khi có tin nhắn mới</p>
+          </div>
+          <input type="checkbox" id="setting-sound" checked>
+        </label>
+
+        <label class="toggle-row">
+          <div>
+            <strong>✍️ Hiển thị trạng thái đang nhập</strong>
+            <p class="small muted">Cho mọi người biết khi bạn đang gõ phím</p>
+          </div>
+          <input type="checkbox" id="setting-typing" checked>
+        </label>
+
+        <label class="toggle-row">
+          <div>
+            <strong>⏎ Nhấn Enter để gửi ngay</strong>
+            <p class="small muted">Gửi nhanh tin nhắn khi bấm phím Enter</p>
+          </div>
+          <input type="checkbox" id="setting-enter-send" checked>
+        </label>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" id="btn-cancel-settings" class="secondary-btn">Hủy</button>
+        <button type="submit" class="primary-btn">✓ Áp dụng & Lưu</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Create Group Room Modal -->
+  <dialog id="create-room-dialog" class="modal-dialog small-dialog">
+    <form id="create-room-form" method="dialog" class="auth-card">
+      <h2>➕ Tạo Nhóm Trò chuyện Mới</h2>
+      <label class="field">
+        <span>Tên nhóm</span>
+        <input id="new-room-name" type="text" required maxlength="36" placeholder="VD: Nhóm Thiết kế, Hội Bạn Thân...">
+      </label>
+      <label class="field">
+        <span>Mô tả chủ đề</span>
+        <input id="new-room-desc" type="text" maxlength="90" placeholder="VD: Không gian trao đổi công việc và chia sẻ">
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="btn-cancel-room" class="secondary-btn">Hủy</button>
+        <button type="submit" class="primary-btn">Tạo Nhóm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Create Poll Modal -->
+  <dialog id="create-poll-dialog" class="modal-dialog small-dialog">
+    <form id="create-poll-form" method="dialog" class="auth-card">
+      <h2>📊 Tạo Bình chọn Nhanh</h2>
+      <label class="field">
+        <span>Câu hỏi bình chọn</span>
+        <input id="poll-question" type="text" required maxlength="120" placeholder="VD: Cuối tuần này nhóm mình đi đâu?">
+      </label>
+      <label class="field">
+        <span>Các phương án (mỗi dòng 1 lựa chọn)</span>
+        <textarea id="poll-options" rows="4" required placeholder="Cà phê sáng thứ 7&#10;Ăn tối Chủ nhật&#10;Xem phim"></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="btn-cancel-poll" class="secondary-btn">Hủy</button>
+        <button type="submit" class="primary-btn">Đăng Bình chọn</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Main 3-Column Interface -->
+  <div class="chat-app">
+    <!-- Left Sidebar -->
+    <aside class="sidebar-left">
+      <header class="user-profile-bar">
+        <div class="my-avatar" id="my-avatar" title="Bấm để sửa hồ sơ">😎</div>
+        <div class="my-info">
+          <div class="my-name" id="my-name">Chưa đăng nhập</div>
+          <div class="my-username muted" id="my-username">@khach</div>
+          <div class="conn-status" id="conn-status">
+            <span class="dot"></span> <span id="conn-text">Đang kết nối…</span>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button id="btn-edit-profile" type="button" class="icon-btn" title="Hồ sơ cá nhân">👤 Hồ sơ</button>
+          <button id="btn-open-settings" type="button" class="icon-btn" title="Cài đặt giao diện & thông báo">⚙️ Cài đặt</button>
+          <button id="btn-switch-account" type="button" class="icon-btn" title="Đổi tài khoản / Đăng xuất">🔄 Đổi TK</button>
+        </div>
+      </header>
+
+      <div class="search-box">
+        <input id="sidebar-search" type="search" placeholder="🔍 Tìm nhóm hoặc bạn bè...">
+      </div>
+
+      <div class="sidebar-sections">
+        <div class="section-header">
+          <span>📢 KÊNH & NHÓM CHAT</span>
+          <button id="btn-new-room" type="button" class="mini-add-btn" title="Tạo nhóm mới">+ Tạo nhóm</button>
+        </div>
+        <nav id="channel-list" class="room-list" aria-label="Danh sách nhóm chat"></nav>
+
+        <div class="section-header">
+          <span>💬 TIN NHẮN RIÊNG (1-1)</span>
+        </div>
+        <nav id="dm-list" class="room-list" aria-label="Danh sách trò chuyện riêng"></nav>
+      </div>
+    </aside>
+
+    <!-- Center Column: Active Chat Window -->
+    <main class="chat-center">
+      <header class="chat-header">
+        <div class="room-header-info">
+          <div class="room-title-row">
+            <span id="active-room-icon" class="room-icon">#</span>
+            <h2 id="active-room-name">sảnh-chung</h2>
+            <span id="active-room-type" class="type-pill">Nhóm chung</span>
+          </div>
+          <p id="active-room-desc" class="muted">Không gian trò chuyện chung của mọi thành viên</p>
+        </div>
+        <div class="header-badges">
+          <input id="msg-search-input" type="search" class="msg-search-input" placeholder="🔎 Tìm trong cuộc trò chuyện...">
+          <span class="pill-badge" id="online-count-badge">🟢 0 đang xem</span>
+        </div>
+      </header>
+
+      <!-- Pinned Message Banner -->
+      <div id="pinned-banner" class="pinned-banner" hidden>
+        <div class="pinned-content" id="pinned-jump-btn">
+          <span class="pin-icon">📌</span>
+          <div>
+            <strong id="pinned-author">Tin nhắn ghim</strong>:
+            <span id="pinned-text"></span>
+          </div>
+        </div>
+        <button id="btn-unpin" type="button" class="mini-close-btn" title="Bỏ ghim">✕</button>
+      </div>
+
+      <section id="message-feed" class="message-feed" aria-live="polite"></section>
+
+      <!-- Reply or Edit Preview Bar -->
+      <div id="reply-bar" class="reply-bar" hidden>
+        <div class="reply-info">
+          <strong id="reply-mode-label">↩ Đang trả lời <span id="reply-target-user"></span>:</strong>
+          <span id="reply-target-text" class="muted"></span>
+        </div>
+        <button id="btn-cancel-reply" type="button" class="mini-close-btn">✕</button>
+      </div>
+
+      <div id="typing-indicator" class="typing-indicator" hidden>
+        <span class="typing-dots"><span></span><span></span><span></span></span>
+        <span id="typing-text">Ai đó đang nhập tin nhắn…</span>
+      </div>
+
+      <footer class="chat-composer">
+        <div class="composer-toolbar">
+          <div class="quick-emojis">
+            <button type="button" class="emoji-insert-btn" data-emoji="👋">👋</button>
+            <button type="button" class="emoji-insert-btn" data-emoji="🔥">🔥</button>
+            <button type="button" class="emoji-insert-btn" data-emoji="❤️">❤️</button>
+            <button type="button" class="emoji-insert-btn" data-emoji="😂">😂</button>
+            <button type="button" class="emoji-insert-btn" data-emoji="🎉">🎉</button>
+            <button type="button" class="emoji-insert-btn" data-emoji="👍">👍</button>
+            <button type="button" class="emoji-insert-btn" data-emoji="🚀">🚀</button>
+          </div>
+          <div class="toolbar-tools">
+            <button type="button" id="btn-open-poll" class="tool-pill-btn">📊 Tạo Bình chọn</button>
+          </div>
+        </div>
+        <form id="composer-form" class="composer-row">
+          <input id="message-input" type="text" maxlength="2000" placeholder="Nhập tin nhắn... (Enter để gửi)" autocomplete="off">
+          <button type="submit" id="btn-submit-msg" class="send-btn">Gửi ➤</button>
+        </form>
+      </footer>
+    </main>
+
+    <!-- Right Sidebar: User Directory + Room Members -->
+    <aside class="sidebar-right">
+      <div class="right-card">
+        <h3>👥 Danh bạ Thành viên (<span id="total-users-count">0</span>)</h3>
+        <p class="small muted">Chạm vào thành viên để nhắn tin riêng 1-1:</p>
+        <ul id="users-directory-list" class="presence-list"></ul>
+      </div>
+
+      <div class="right-card">
+        <h3>🟢 Đang hoạt động tại phòng</h3>
+        <ul id="room-presence-list" class="presence-list"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <div id="error-toast" class="error-toast" hidden></div>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+.agents/
+*.tmp
+server.log
+server-error.log
+.DS_Store

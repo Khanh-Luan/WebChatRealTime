@@ -1,0 +1,466 @@
+{
+  "users": [
+    {
+      "username": "minhtuan",
+      "passwordHash": "scrypt$4c8fd516d28da14cd2b337a31e158e34$9e54218defefc09aaba0211ddba544842220d43c8ad7174e70d494421fcd91cc4e03600b74c55ef5b7598943315f5567baa7af0ff5903a0516c7a33ab22db2e6",
+      "displayName": "Minh Tuấn",
+      "avatar": "😎",
+      "bio": "Thiết kế sản phẩm · TP.HCM",
+      "createdAt": "2026-10-12T05:09:07.761Z",
+      "settings": {
+        "theme": "ocean",
+        "accent": "#10b981",
+        "fontSize": "large",
+        "sound": true,
+        "sendTyping": true,
+        "enterToSend": true
+      }
+    },
+    {
+      "username": "lananh",
+      "passwordHash": "scrypt$fa47dae3a9d280ab59f8ef5884c0ac18$33bbe0d7dd8b8deadf6325aee75b3b913529181694f1b4c29022387a1e95ed31310031db7ab0adc71e65c328016bbe6eee75ec9599dbdb8e5ca2f5747db04717",
+      "displayName": "Lan Anh",
+      "avatar": "🌷",
+      "bio": "Quản lý dự án · Hà Nội",
+      "createdAt": "2026-10-12T05:09:07.792Z"
+    },
+    {
+      "username": "hoangnam",
+      "passwordHash": "scrypt$8833030c78dee88b9ed15205813b201a$2492c7fdf92c0810f572e4c823b3873eb923703cca71876cff6f996201c9e94fe8c52032c80134b5be29f15e78c55a6162afb05bf6a1dfa086934939d6fa7ea5",
+      "displayName": "Hoàng Nam",
+      "avatar": "🚀",
+      "bio": "Kỹ sư phần mềm · Đà Nẵng",
+      "createdAt": "2026-10-12T05:09:07.825Z"
+    },
+    {
+      "username": "123",
+      "passwordHash": "scrypt$b6c19dd8fdbc557bbafe739928af375a$74c9db8016894ee8a7dba333db4eba4d79c4c6941c700966a636771a4df60089c0b3e4f501b2e1c0520793025e91c064d23356220d42a0d41ee8006556a5a73b",
+      "displayName": "123",
+      "avatar": "🦊",
+      "bio": "123",
+      "createdAt": "2026-10-12T05:10:03.712Z"
+    },
+    {
+      "username": "khach_5134",
+      "passwordHash": "scrypt$bc1d24d88cbc508d711b5c60a0114505$978b41f4ed1d837e5ed23f7efda8a4094a3f738268e968b69ccb5c23c1f2e4a38f957ffe9dca9bd76f14f92205d2140d2c4776385663fce364d8be0950d62035",
+      "displayName": "Khách Hàng VIP",
+      "avatar": "👑",
+      "bio": "Th?nh vi?n M?y Chat",
+      "createdAt": "2026-10-12T05:32:05.191Z"
+    },
+    {
+      "username": "khach_0730",
+      "passwordHash": "scrypt$5d1dce1bb4a26361abe42c4c9a1361a5$382fd809c9de6dcef84ea8fe823709dd77201a785b0d820669852d3e312b0bd326cdf82bf0ad76d039a7c148874eab3506733aaccda58228a659cb8e182d7a88",
+      "displayName": "Khách Hàng VIP",
+      "avatar": "👑",
+      "bio": "Th?nh vi?n M?y Chat",
+      "createdAt": "2026-10-12T05:33:20.767Z"
+    },
+    {
+      "username": "khach_3226",
+      "passwordHash": "scrypt$5013229761119b6677385435e76d8919$420438021e53977b122a1a8b1fa0367c645fce7fdde9ddbf29fffc4f5a99758b52f1d89cc1bb805b01af502a9e024139ef822282d38e6c0a5feface3eca35a1e",
+      "displayName": "Khách Hàng VIP",
+      "avatar": "👑",
+      "bio": "Th?nh vi?n M?y Chat",
+      "createdAt": "2026-10-12T05:34:23.322Z"
+    },
+    {
+      "username": "khach_8336",
+      "passwordHash": "scrypt$8ff7781b4313e78cafe132d3f3f0a5c0$0b0625da59ed3447f73b4e310ca63aac535370f79f38a0570c4de59ad788188c392c409227ab0572c56c2cb4177fa28549d0336256a315053f0a68d363c84ff0",
+      "displayName": "Khách Hàng Mới",
+      "avatar": "🌸",
+      "bio": "Đang dùng thử Mây Chat",
+      "settings": {},
+      "createdAt": "2026-10-12T08:51:08.393Z"
+    },
+    {
+      "username": "khach_2541",
+      "passwordHash": "scrypt$e45af716c6aae3bac6d942dcecc28192$fb6c717fcedece306942a9706275471366a8526e184e7e547f422ed48b1b39dd7a927da00e2bd9f76bf3660e454968554700a05fb2ac612d0afbf01681c8908d",
+      "displayName": "Khách Hàng Mới",
+      "avatar": "🌸",
+      "bio": "Đang dùng thử Mây Chat",
+      "settings": {},
+      "createdAt": "2026-10-12T08:55:12.569Z"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "general",
+      "name": "sảnh-chung",
+      "description": "Không gian trò chuyện chung của mọi thành viên",
+      "type": "channel",
+      "members": [],
+      "pinnedMessageId": "m-1791795312608-7ff247a04c"
+    },
+    {
+      "id": "random",
+      "name": "tán-gẫu",
+      "description": "Chia sẻ tự do & giải trí mỗi ngày",
+      "type": "channel",
+      "members": []
+    },
+    {
+      "id": "dm:123:minhtuan",
+      "name": "123 & minhtuan",
+      "description": "Trò chuyện riêng 1-1",
+      "type": "dm",
+      "members": [
+        "123",
+        "minhtuan"
+      ],
+      "createdAt": "2026-10-12T05:10:15.126Z"
+    },
+    {
+      "id": "dm:lananh:minhtuan",
+      "name": "lananh & minhtuan",
+      "description": "Trò chuyện riêng 1-1",
+      "type": "dm",
+      "members": [
+        "lananh",
+        "minhtuan"
+      ],
+      "createdAt": "2026-10-12T05:33:20.822Z"
+    },
+    {
+      "id": "dm:khach_0730:minhtuan",
+      "name": "khach_0730 & minhtuan",
+      "description": "Trò chuyện riêng 1-1",
+      "type": "dm",
+      "members": [
+        "khach_0730",
+        "minhtuan"
+      ],
+      "createdAt": "2026-10-12T05:36:37.086Z"
+    },
+    {
+      "id": "dm:khach_3226:minhtuan",
+      "name": "khach_3226 & minhtuan",
+      "description": "Trò chuyện riêng 1-1",
+      "type": "dm",
+      "members": [
+        "khach_3226",
+        "minhtuan"
+      ],
+      "createdAt": "2026-10-12T05:36:38.110Z"
+    },
+    {
+      "id": "dm:khach_5134:minhtuan",
+      "name": "khach_5134 & minhtuan",
+      "description": "Trò chuyện riêng 1-1",
+      "type": "dm",
+      "members": [
+        "khach_5134",
+        "minhtuan"
+      ],
+      "createdAt": "2026-10-12T05:36:38.894Z"
+    },
+    {
+      "id": "cong-viec",
+      "name": "công-việc",
+      "description": "Trao đổi công việc, tài liệu & dự án nhóm",
+      "type": "channel",
+      "members": []
+    }
+  ],
+  "messages": {
+    "general": [
+      {
+        "id": "m-1791781812911-0e8da0f082",
+        "roomId": "general",
+        "username": "123",
+        "displayName": "123",
+        "avatar": "🦊",
+        "text": "hh",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:10:12.911Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791782644775-80a7393ab3",
+        "roomId": "general",
+        "username": "123",
+        "displayName": "123",
+        "avatar": "🦊",
+        "text": "ga",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:24:04.775Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791782662918-1f32d77720",
+        "roomId": "general",
+        "username": "123",
+        "displayName": "123",
+        "avatar": "🦊",
+        "text": "❤️",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:24:22.918Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791783125268-963d1f856d",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:32:05.268Z",
+        "reactions": {},
+        "pinned": false,
+        "recalled": true
+      },
+      {
+        "id": "m-1791783200805-cf50ecfe7a",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:33:20.805Z",
+        "reactions": {},
+        "edited": true,
+        "editedAt": "2026-10-12T05:33:20.808Z",
+        "pinned": false,
+        "recalled": true
+      },
+      {
+        "id": "m-1791783200813-db625fd1be",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "📊 Bình chọn: Trưa nay team ăn gì?",
+        "poll": {
+          "question": "Trưa nay team ăn gì?",
+          "options": [
+            {
+              "text": "Phở bò",
+              "voters": []
+            },
+            {
+              "text": "Bún chả",
+              "voters": [
+                "lananh"
+              ]
+            },
+            {
+              "text": "Pizza",
+              "voters": []
+            }
+          ]
+        },
+        "timestamp": "2026-10-12T05:33:20.813Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791783200820-17a97edf18",
+        "roomId": "general",
+        "username": "lananh",
+        "displayName": "Lan Anh",
+        "avatar": "🌷",
+        "text": "Tin nhắn tạo badge chưa đọc!",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:33:20.820Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791783263363-e5db3ddaac",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:34:23.363Z",
+        "reactions": {},
+        "edited": true,
+        "editedAt": "2026-10-12T05:36:23.302Z",
+        "pinned": false,
+        "recalled": true
+      },
+      {
+        "id": "m-1791783263389-904d4d0bae",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "📊 Bình chọn: Trưa nay team ăn gì?",
+        "poll": {
+          "question": "Trưa nay team ăn gì?",
+          "options": [
+            {
+              "text": "Phở bò",
+              "voters": [
+                "minhtuan"
+              ]
+            },
+            {
+              "text": "Bún chả",
+              "voters": [
+                "lananh"
+              ]
+            },
+            {
+              "text": "Pizza",
+              "voters": []
+            }
+          ]
+        },
+        "timestamp": "2026-10-12T05:34:23.390Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791783263415-1dd409ff19",
+        "roomId": "general",
+        "username": "lananh",
+        "displayName": "Lan Anh",
+        "avatar": "🌷",
+        "text": "Tin nhắn tạo badge chưa đọc!",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:34:23.415Z",
+        "reactions": {},
+        "pinned": false
+      },
+      {
+        "id": "m-1791795068438-8d7e378773",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn",
+        "avatar": "😎",
+        "text": "Chào Lan Anh, giao diện Mây Chat mới nhìn rất gọn! (8437) - đã cập nhật",
+        "replyTo": null,
+        "timestamp": "2026-10-12T08:51:08.438Z",
+        "reactions": {},
+        "edited": true,
+        "editedAt": "2026-10-12T08:51:08.441Z",
+        "pinned": false
+      },
+      {
+        "id": "m-1791795312608-7ff247a04c",
+        "roomId": "general",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn",
+        "avatar": "😎",
+        "text": "Chào Lan Anh, giao diện Mây Chat mới nhìn rất gọn! (2608) - đã cập nhật",
+        "replyTo": null,
+        "timestamp": "2026-10-12T08:55:12.608Z",
+        "reactions": {},
+        "edited": true,
+        "editedAt": "2026-10-12T08:55:12.612Z",
+        "pinned": true
+      }
+    ],
+    "dm:123:minhtuan": [
+      {
+        "id": "m-1791781817440-4b330abb3e",
+        "roomId": "dm:123:minhtuan",
+        "username": "123",
+        "displayName": "123",
+        "avatar": "🦊",
+        "text": "alo",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:10:17.440Z",
+        "reactions": {
+          "😂": 1
+        }
+      },
+      {
+        "id": "m-1791782670209-ea94c16d07",
+        "roomId": "dm:123:minhtuan",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn",
+        "avatar": "😎",
+        "text": "gi",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:24:30.209Z",
+        "reactions": {
+          "❤️": 1
+        }
+      }
+    ],
+    "random": [],
+    "dm:lananh:minhtuan": [
+      {
+        "id": "m-1791783200825-67d8c2c653",
+        "roomId": "dm:lananh:minhtuan",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:33:20.826Z",
+        "reactions": {},
+        "recalled": true
+      },
+      {
+        "id": "m-1791783263434-5bc1347efe",
+        "roomId": "dm:lananh:minhtuan",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn Pro",
+        "avatar": "🔥",
+        "text": "",
+        "replyTo": null,
+        "timestamp": "2026-10-12T05:34:23.434Z",
+        "reactions": {},
+        "recalled": true
+      },
+      {
+        "id": "m-1791795068457-90655677c9",
+        "roomId": "dm:lananh:minhtuan",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn",
+        "avatar": "😎",
+        "text": "Tin nhắn riêng kiểm tra Mây Chat!",
+        "replyTo": null,
+        "timestamp": "2026-10-12T08:51:08.457Z",
+        "reactions": {}
+      },
+      {
+        "id": "m-1791795312622-f54b0e8240",
+        "roomId": "dm:lananh:minhtuan",
+        "username": "minhtuan",
+        "displayName": "Minh Tuấn",
+        "avatar": "😎",
+        "text": "Tin nhắn riêng kiểm tra Mây Chat!",
+        "replyTo": null,
+        "timestamp": "2026-10-12T08:55:12.622Z",
+        "reactions": {}
+      }
+    ],
+    "dm:khach_0730:minhtuan": [],
+    "dm:khach_3226:minhtuan": []
+  },
+  "tokens": {
+    "9c1a142684da2fe08fa43c33c61151a3f4accb8b30c0805ada0a03ee233acd76": "123",
+    "76b2fce8382d24824d3a4460838ab380c2e1ca81267b6efc333ff26a1750bb07": "minhtuan",
+    "dbd99e4cef0de4912a3b9e8ecc40cd5ac3f12459cfe729806f07146c1b07af47": "minhtuan",
+    "9b0927a45568b0e813ad01173b0561c33e02edde643af7b44ebf2c4fdb03454d": "123",
+    "43ed447ab237833f8e8890a6b85237d358a39bf6bb99f37026e7781e150a734f": "minhtuan",
+    "72c2881d9a5e04f9fe0ee970edf5a6176df361c9d3432eb9770c9cca3dbc2fcc": "minhtuan",
+    "2c190543991fe573cf7b1ee60a981fa557cda38f0bd2af46f5520a29223f6d30": "lananh",
+    "304007717cdc7f75f7a5bb19c658f464111d02a3eb47612ea833863e562ae8b8": "khach_5134",
+    "99af9c09fbde2819b16ef291437ea57018c273ea420e7db06f66ff00e5d2defa": "minhtuan",
+    "b513abb11fee012579788af09593060cd40075e39a5ba6594fbc21ab9d756504": "lananh",
+    "aab145e3d76c7c2de98939d61076298fb98b29d3df959f6b2cbff2e915a8f5f0": "khach_0730",
+    "b02fd3ffbc6e9dc303df51c6be94c6d3238c3235082b6e9f09bc70ec5c33f344": "minhtuan",
+    "02be98a67b29b02215648c3514b05e70ccd8a45aa290912d5231e7052c6b2dc7": "lananh",
+    "db1157e2babba5fc4b18d9f053e06aff8fcf83945588d9210e9ac4ad68adcbd5": "khach_3226",
+    "c4f79f3fe48d895c03470f33c3a3763c7aa5177aca9dff37e50db7b65d640b40": "minhtuan",
+    "2d5520d55ecd4cd881522c5e334bb1f5c08458830f8e5d8b2de27c2082dae042": "minhtuan",
+    "a34b64c331566352af7424df5eaa859e334fcbf7e9f8e1d5de7f7fd83e9a75e0": "minhtuan",
+    "0b539f85eb90155236ed9db41dc31c0b0034811e5fc7085ba0a2c34c3019f409": "minhtuan",
+    "aacda5de48578ff84e068f4149c49f27b0a5f25d07df1426b54fe9121e78fbf5": "lananh",
+    "093df6a57a356545c7f505c068f2729df0d477fb49d3b4a64f40c35c66860e5f": "khach_8336",
+    "856a175407b2067dfec25b0e5ac2e44756d1eb21ab3620528e8fdda46741f075": "minhtuan",
+    "5c80d6a42638c3f556ddb90ab0bb7067c647affae6ce0c3aa3b04f9fa417130e": "lananh",
+    "c0e1d6c12526d9ac5e0ba6e1832881501d0199c777b0d5c0e8929ea8a161d96c": "khach_2541"
+  }
+}
